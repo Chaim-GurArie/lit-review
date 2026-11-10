@@ -35,8 +35,17 @@
 
 ## התקנה (פעם אחת)
 
-### דרך א – מ־GitHub (מומלץ, מקבלים עדכונים)
-בתוך Claude Code, בתיבת ההודעה, מקלידים:
+### דרך א – באפליקציית Claude למחשב (הכי פשוט)
+1. פותחים את אפליקציית Claude ועוברים ללשונית **Code**.
+2. נכנסים להגדרות: לוחצים על גלגל השיניים ⚙️ ליד השם שלכם בפינה השמאלית התחתונה ← **Customize** ← **Plugins**.
+   (קיצור דרך: מקלידים `/plugin` בתיבת ההודעה, וזה פותח את אותו מסך.)
+3. בפינה הימנית העליונה לוחצים **+ Add** ← **Add from a repository**.
+4. מקלידים `Chaim-GurArie/lit-review` ומאשרים.
+5. ברשימה מופיע **Literature Review Writer** ← לוחצים **Add to this computer**.
+6. פותחים שיחה חדשה. הפלאגין מוכן לשימוש.
+
+### דרך ב – ב־Claude Code בטרמינל
+בתיבת ההודעה מקלידים:
 
 ```
 /plugin marketplace add Chaim-GurArie/lit-review
@@ -45,7 +54,7 @@
 
 לעדכון לגרסה חדשה: `/plugin marketplace update lit-review-marketplace`.
 
-### דרך ב – מקובץ zip
+### דרך ג – מקובץ zip
 1. פותחים את ה־zip לתיקייה קבועה במחשב (למשל `Documents\lit-review`). לא למחוק אותה אחר כך.
 2. בתוך Claude Code מקלידים, עם הנתיב לתיקייה:
    ```
@@ -121,7 +130,8 @@ A Claude Code plugin that turns a folder of academic PDFs into a literature-revi
 
 Pipeline: PDF extraction and quality check (scanned pages, reversed Hebrew, damaged tables, duplicates) → interview → per-article structured summaries, each verified by a stronger model → user checkpoint → cross-article theme matrix → outline → user checkpoint → chapter-by-chapter writing → integration → full fact-check → critic/reviser loop (rubric, up to 4 rounds) → best version built into .docx with a report of what to verify.
 
-**Install:** `/plugin marketplace add Chaim-GurArie/lit-review` then `/plugin install lit-review@lit-review-marketplace`.
+**Install (Claude desktop app, Code tab):** Settings → Customize → Plugins → **+ Add** → **Add from a repository** → `Chaim-GurArie/lit-review` → **Add to this computer**.
+**Install (Claude Code in a terminal):** `/plugin marketplace add Chaim-GurArie/lit-review` then `/plugin install lit-review@lit-review-marketplace`.
 **Use:** open the folder with the PDFs in Claude Code and run `/lit-review:review`.
 **Contributing:** pull requests are welcome and are merged after maintainer review — see [CONTRIBUTING.md](CONTRIBUTING.md).
 **Requires:** a paid Claude plan, Claude Code (desktop app or CLI), Python 3.9+ (packages `pdfplumber`, `python-docx`, `pyyaml` are installed automatically).
