@@ -39,11 +39,11 @@
 בתוך Claude Code, בתיבת ההודעה, מקלידים:
 
 ```
-/plugin marketplace add <שם-משתמש>/<שם-המאגר>
+/plugin marketplace add Chaim-GurArie/lit-review
 /plugin install lit-review@lit-review-marketplace
 ```
 
-(את `<שם-משתמש>/<שם-המאגר>` מקבלים ממי ששלח לכם את הפלאגין.)
+לעדכון לגרסה חדשה: `/plugin marketplace update lit-review-marketplace`.
 
 ### דרך ב – מקובץ zip
 1. פותחים את ה־zip לתיקייה קבועה במחשב (למשל `Documents\lit-review`). לא למחוק אותה אחר כך.
@@ -109,14 +109,21 @@
 
 ---
 
+## תרומה לפרויקט
+
+הפרויקט פתוח, ותרומות יתקבלו בשמחה: תיקוני באגים, פרופילים לסוגי עבודות נוספים, תמיכה בשפות ושיפורים לסוכנים. כל שינוי נכנס דרך Pull Request ורק אחרי אישור של מנהל הפרויקט. ההסבר המלא נמצא ב־[CONTRIBUTING.md](CONTRIBUTING.md). מצאתם באג? פתחו [Issue](https://github.com/Chaim-GurArie/lit-review/issues).
+
+---
+
 ## English summary
 
 A Claude Code plugin that turns a folder of academic PDFs into a literature-review paper (seminar paper or journal review article) as a Word file with cover page, table of contents and APA 7 bibliography.
 
 Pipeline: PDF extraction and quality check (scanned pages, reversed Hebrew, damaged tables, duplicates) → interview → per-article structured summaries, each verified by a stronger model → user checkpoint → cross-article theme matrix → outline → user checkpoint → chapter-by-chapter writing → integration → full fact-check → critic/reviser loop (rubric, up to 4 rounds) → best version built into .docx with a report of what to verify.
 
-**Install:** `/plugin marketplace add <owner>/<repo>` then `/plugin install lit-review@lit-review-marketplace`.
+**Install:** `/plugin marketplace add Chaim-GurArie/lit-review` then `/plugin install lit-review@lit-review-marketplace`.
 **Use:** open the folder with the PDFs in Claude Code and run `/lit-review:review`.
+**Contributing:** pull requests are welcome and are merged after maintainer review — see [CONTRIBUTING.md](CONTRIBUTING.md).
 **Requires:** a paid Claude plan, Claude Code (desktop app or CLI), Python 3.9+ (packages `pdfplumber`, `python-docx`, `pyyaml` are installed automatically).
 Project-specific rules go in `rules.md` in the project folder; settings in `review-output/project.yaml`. Writers run on lighter models than the agents that check them; if Opus is not available on the plan, the plugin falls back automatically.
 
