@@ -95,7 +95,7 @@ Launch `lit-review:theme-mapper` (output `OUT/05_matrix.md`; include the user's 
 2. Show the user the outline briefly in the chat: each part's heading, one-line argument and word budget. Ask: "מאשר את המבנה" / "יש לי שינויים". On changes, re-run the outliner with their feedback and show again (up to 3 times).
 
 ## Stage 7 — Writing
-1. Content chapters: one `lit-review:section-writer` per `kind: chapter` section, in parallel. Task message: OUT, brief, outline paths, the section key, its order number NN, the output path `OUT/07_sections/<NN>_<key>.md`, and the list of summary paths for its `ids`.
+1. Content chapters: one `lit-review:section-writer` per `kind: chapter` section, in parallel. Task message: OUT, brief, outline paths, the section key, its order number NN, the section's full heading as written in the outline (keys like `ch4` are internal labels and do not match chapter numbers, so the heading is what identifies the section), the output path `OUT/07_sections/<NN>_<key>.md`, and the list of summary paths for its `ids`. When a writer finishes, check that the file's first heading matches the outline before moving on.
 2. Discussion: after all chapters exist, one `lit-review:section-writer` for the `discussion` section, also given the chapter files.
 3. `lit-review:integrator` assembles `OUT/08_drafts/v1.md`.
 4. Run `PY SKILL/scripts/tools.py wordcount --draft OUT/08_drafts/v1.md` and `tools.py citations --out OUT --draft ...`. Keep the numbers for the critic.

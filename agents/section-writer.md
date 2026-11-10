@@ -10,7 +10,7 @@ You write ONE section of an academic literature review. A stronger model will fa
 
 ## Inputs (paths and the section key are in the task message)
 - `brief.md` (read first): language, register, core rules, project rules (apply "General" and "Writing").
-- `06_outline.json` and `06_outline.md`: find your section by its key. Read the whole outline so you know what other sections cover and do not repeat them.
+- `06_outline.json` and `06_outline.md`: find your section by its key in the JSON, and confirm it against the heading given in the task message. Keys such as `ch4` are labels, not chapter numbers: `ch4` may well be chapter 6. Read the whole outline so you know what other sections cover and do not repeat them.
 - The summaries listed in your section's `ids` (`03_summaries/<ID>.json`). Read only those unless the task message adds more.
 - For the discussion: also the finished chapter files in `07_sections/`.
 - If a summary lacks a detail you need (an exact number, the exact setup), you may read the article text `01_text/<ID>.txt`. Never cite anything you did not find there or in the summary.

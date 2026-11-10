@@ -58,6 +58,8 @@ REF_HEAD = re.compile(
 )
 DOI = re.compile(r"\b(10\.\d{4,9}/[^\s\"<>]+[^\s\"<>.,;])")
 YEAR = re.compile(r"\b(19[5-9]\d|20[0-4]\d)\b")
+# file names like "Cohen 2023 - title", "Pyzer-Knapp 2022", "Cohen & Levi 2021", "Cohen et al 2020"
+FNAME_AUTHOR_YEAR = re.compile(r"^\s*([A-Za-z][A-Za-z'\-]+)[^0-9]{0,40}?\b(19[5-9]\d|20[0-4]\d)\b")
 
 
 # --------------------------------------------------------------------------- text helpers
@@ -220,8 +222,17 @@ def guess_metadata(meta, first_text, fname):
         parts = [p for p in re.split(r"\s+", first) if p]
         if parts:
             cand = ascii_slug(parts[-1])
-            if 2 <= len(cand) <= 20 and cand.isalpha():
+            # PDF "Author" metadata is often the uploader ("Admin", a typist's name);
+            # trust it only if the name also appears on the first pages
+            if 2 <= len(cand) <= 20 and cand.isalpha() and cand.lower() in ascii_slug(first_text[:6000]).lower():
                 family = cand.capitalize()
+    # a file name such as "Cohen 2023 - title.pdf" is a better source than unreliable metadata
+    m = FNAME_AUTHOR_YEAR.match(Path(fname).stem)
+    if m:
+        slug = ascii_slug(m.group(1))
+        if len(slug) >= 2:
+            family = slug[0].upper() + slug[1:]
+            year = int(m.group(2))
     abstract = ""
     m = re.search(r"(abstract|תקציר)\s*[:.\-—]?\s*(.{200,1800}?)(\n\s*(1\.?\s*)?(introduction|keywords|key words|מבוא|מילות מפתח))",
                   first_text, re.I | re.S)
@@ -246,8 +257,10 @@ def make_id(md, fname, used):
         base = ascii_slug(Path(fname).stem)[:24] or "Article"
         if not base[0].isalpha():
             base = "A" + base
+    # compare case-insensitively: IDs become file names, and macOS/Windows file systems ignore case
+    taken = {u.lower() for u in used}
     cand, i = base, 0
-    while cand in used:
+    while cand.lower() in taken:
         cand = base + "abcdefghijklmnopqrstuvwxyz"[i]
         i += 1
     used.add(cand)

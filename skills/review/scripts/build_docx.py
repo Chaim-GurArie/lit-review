@@ -702,7 +702,10 @@ def build(args):
                 run.italic = it
                 set_run_fonts(run, cfg["font_en"], cfg["font_he"], cfg["size"], rtl=bool(rtl) if rtl is not None else heb_entry)
 
-    target = Path(args.docx) if args.docx else out / "final" / (re.sub(r'[\\/:*?"<>|]+', "", proj.get("title") or "paper").strip()[:80] + ".docx")
+    name = re.sub(r'[\\/:*?"<>|]+', "", proj.get("title") or "").strip()[:80]
+    if not re.search(r"[^\sXx]", name):  # empty, or a placeholder such as "XXX" the student will fill in later
+        name = "סקירת ספרות - טיוטה" if proj.get("language", "he") == "he" else "literature review - draft"
+    target = Path(args.docx) if args.docx else out / "final" / (name + ".docx")
     target.parent.mkdir(parents=True, exist_ok=True)
     doc.save(str(target))
 

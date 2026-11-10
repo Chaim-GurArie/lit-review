@@ -2,7 +2,8 @@
 """Render PDF pages to PNG images (for the visual check and for reading scanned pages).
 
 Usage:
-    python3 render_pages.py --out <review-output> --id Cohen2023 --pages 1 5
+    python3 render_pages.py --out <review-output> --id Cohen2023 --pages 1 5      (or 1,5 or 3-6)
+    python3 render_pages.py --out <review-output> --id Cohen2023 --pages 13 --dpi 220   # sharper, for small print
     python3 render_pages.py --out <review-output> --id Cohen2023 --pages all
     python3 render_pages.py --out <review-output> --visual-sample      # every article's sample pages
 
@@ -21,6 +22,26 @@ except ImportError:  # pragma: no cover
     sys.exit(1)
 
 
+DEFAULT_DPI = 110
+
+
+def parse_pages(tokens):
+    """Accept "1 5", "1,5", "3-6" or "all"."""
+    if not tokens or tokens == ["all"]:
+        return "all"
+    pages = []
+    for tok in ",".join(tokens).split(","):
+        tok = tok.strip()
+        if not tok:
+            continue
+        if "-" in tok:
+            a, b = tok.split("-", 1)
+            pages += list(range(int(a), int(b) + 1))
+        else:
+            pages.append(int(tok))
+    return pages
+
+
 def render(rec, pages, out_dir, dpi):
     done = []
     with pdfplumber.open(rec["path"]) as pdf:
@@ -30,7 +51,10 @@ def render(rec, pages, out_dir, dpi):
         for p in pages:
             if not 1 <= p <= n:
                 continue
-            target = out_dir / f'{rec["id"]}_p{p}.png'
+            # a non-default resolution gets its own file, so asking for a sharper image never
+            # silently returns an older low-resolution render of the same page
+            suffix = "" if dpi == DEFAULT_DPI else f"_{dpi}dpi"
+            target = out_dir / f'{rec["id"]}_p{p}{suffix}.png'
             if not target.exists():
                 pdf.pages[p - 1].to_image(resolution=dpi).save(str(target), format="PNG")
             done.append({"id": rec["id"], "page": p, "path": str(target)})
@@ -43,7 +67,7 @@ def main():
     ap.add_argument("--id")
     ap.add_argument("--pages", nargs="*")
     ap.add_argument("--visual-sample", action="store_true")
-    ap.add_argument("--dpi", type=int, default=110)
+    ap.add_argument("--dpi", type=int, default=DEFAULT_DPI)
     args = ap.parse_args()
 
     out = Path(args.out).resolve()
@@ -65,8 +89,7 @@ def main():
         if rec is None:
             print(json.dumps({"error": f"unknown id {args.id}"}))
             return 1
-        pages = "all" if (not args.pages or args.pages == ["all"]) else [int(p) for p in args.pages]
-        images = render(rec, pages, img_dir, args.dpi)
+        images = render(rec, parse_pages(args.pages), img_dir, args.dpi)
     print(json.dumps({"images": images}, ensure_ascii=False))
     return 0
 
