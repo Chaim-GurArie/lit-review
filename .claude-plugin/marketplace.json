@@ -1,0 +1,14 @@
+{
+  "name": "lit-review-marketplace",
+  "owner": {
+    "name": "Chaim Gurarie"
+  },
+  "plugins": [
+    {
+      "name": "lit-review",
+      "source": "./",
+      "description": "Turns a folder of academic PDFs into a full literature-review paper as a Word file."
+    }
+  ],
+  "description": "Literature-review writer plugin"
+}

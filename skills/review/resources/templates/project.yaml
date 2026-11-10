@@ -1,0 +1,33 @@
+# Project settings. The orchestrator fills this file during the interview.
+# You can edit it by hand; the orchestrator only asks about fields that are empty.
+
+profile: seminar              # seminar | review-article  (files in resources/profiles/)
+language: he                  # he | en  — language of the paper and of messages to you
+title: ""                     # working title of the paper
+field: ""                     # academic field, e.g. "Computer science – NLP"
+course: ""                    # course name (cover page)
+assumed_knowledge: ""         # what the reader already knows; do not explain these
+
+research_question: ""
+sub_questions: []             # 2–4 items; leave empty and the system will propose them
+
+length_words: null            # null = profile default
+review_method: ""             # how you chose the articles (databases, keywords, years, criteria)
+
+cover:
+  student: ""
+  student_id: ""
+  lecturer: ""
+  institution: ""
+  department: ""
+  date: ""                    # empty = today's date
+
+format:                       # leave empty to use the profile defaults
+  font_he: ""
+  font_en: ""
+  font_size: null
+  line_spacing: null
+  margins_cm: null
+
+models: {}                    # optional per-agent overrides, e.g. {section-writer: opus}
+excluded_articles: []         # article IDs to leave out
